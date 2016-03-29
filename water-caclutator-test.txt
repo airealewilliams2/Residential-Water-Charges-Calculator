@@ -1,0 +1,289 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DWU Monthly Residential Water Calculator</title>
+
+
+  <link href="../SiteAssets/css/images.css" rel="stylesheet">
+  <script src="../SiteAssets/js/modernizr.js"></script>
+  <script src="../SiteAssets/js/wNumb.js"></script>
+  <script src="../SiteAssets/js/numeral.min.js"></script>
+  <script src="../SiteAssets/js/myscripts.js"></script>
+
+
+
+</head>
+<body>
+
+  <style>
+
+    #calulator_container{
+      width:700px;
+    }
+
+    #calc_inputs{
+      float:left;
+      width: 37%;
+      margin-right: 2%;
+      margin-bottom:20px;
+    }
+
+    #calc_inputs label{
+     margin-bottom:10px;
+     font-size:20px;
+   }
+
+   .calc_input_section{
+     margin-bottom:20px;    
+     float: left;
+   }
+
+   .calc_input{
+    width:100%;
+    font-size:16px;
+    border:none;
+    border-bottom: solid 1px rgb(0,64,128);
+    padding: 10px 0;
+    border-radius:0px;
+  }
+
+  #calc_results{
+    float:right;
+    width:53%;
+    background-color: white;
+    color: rgb(0,64,128);
+    text-align: center;
+    border-radius: 6px;
+    padding: 30px 0px;
+  }
+
+  #calc_details{
+    clear:both;
+    margin-top:20px;
+    display:block;
+  }
+
+/*
+  #calc_details table{
+   width: 100%;
+  }
+  */
+
+  #estimated_total{
+    font-size: 45px;
+    color:#60b609;
+    padding-bottom: 10px;
+  }
+
+  #gallon_input{
+
+  }
+
+
+
+</style>
+
+<div id="calulator_container">
+
+  <div id="calc_inputs">
+
+
+
+    <div class="calc_input_section">
+
+      <!--Left Side-->
+      <div class="event-date">
+
+        <div class="icons">
+          <span class="water-sprite water-calculator-icons faucet"></span>
+        </div>
+
+
+      </div>
+      <!--Right Side-->
+      <div class="event-desc">
+       <a class="iwanttomodal" href="#gallons">
+        <label>Gallons <span style="font-size:11px">(in hundreds)</span></label>
+        <span class="water-sprite water-calculator-icon-info info"></span>
+      </a>
+      <input type="number" placeholder="0" max="9999999" min="0" class="calc_input" id="gallon_calc_input" onkeyup="myFunction()" onkeypress="return isNumber(event)" style="display: inline-block;">
+    </div>
+
+  </div>
+
+  <div class="calc_input_section">
+    <!--Left Side-->
+    <div class="event-date">
+      <div class="icons">
+        <span class="water-sprite water-calculator-icons meter"></span>
+      </div>
+    </div>
+    <!--Right Side-->
+
+    <div class="event-desc">
+      <a class="iwanttomodal" href="#metersize">
+        <label>Meter Size</label>  
+        <span class="water-sprite water-calculator-icon-info info"></span>
+      </a>
+      <select id="metersize_calc_input" class="calc_input" onchange="myFunction();">
+       <option value="">Select Meter Size</option>
+       <option>5/8</option>
+       <option>3/4</option>
+       <option>1</option>
+       <option>1 1/2</option>
+       <option>2</option>
+       <option>3</option>
+       <option>4</option>
+     </select>
+   </div>
+
+ </div>
+
+
+ <!--Fancybox for showing how to find the water usage-->
+ <div id="gallons" style="display:none; bacgkground-color:grey;">
+   <h3>Gallons</h3>
+   <p>Enter your water usage in 100 gallons which can be found on your utility invoice.</p>
+   <p align="center"><img src="../SiteAssets/img/DWU-Invoice-Gallons.jpg" alt="Help me find my water usage"></p>
+
+ </div>
+
+ <!--Fancybox for showing help me find my meter size-->
+ <div id="metersize" style="display:none; bacgkground-color:grey;">
+   <h3>Meter Size</h3>
+   <p >Select your meter size which can be found on your utility invoice. Your Base Charge is determined by the meter size.</p>
+   <p align="center"><img src="../SiteAssets/img/DWU-Invoice.jpg" alt="Help me find my meter size"></p>
+ </div>
+
+ <!--Fancybox for showing information about the usage charge -->
+ <div id="usagecharge" style="display:none; bacgkground-color:grey;">
+   <h3>Usage Charge</h3>
+   <p>This volume charge is based on usage and covers variable cost such as chemicals, electric power, facility maintenance, repair of mains and repayment of bonds sold to finance construction of the water system.</p>
+ </div>
+
+
+ <!--Fancybox for showing information about the base charge -->
+ <div id="basecharge" style="display:none; bacgkground-color:grey;">
+   <h3>Base Charge</h3>
+   <p>Base water charges cover fixed cost such as reading and maintaining the meter, account maintenance, mailing bills and processing payments.</p>
+ </div>
+
+</div>
+
+
+
+<div id="calc_results">
+  <div id="estimated_total">$0.00</div>
+  <div style="font-weight: bold;">MONTHLY CHARGES ESTIMATE</div>
+  <br>
+  <div id="">*Estimation Details Below</div>
+</div>
+
+<div class="slh-calculator" id="calc_details" >
+
+  <h3>Estimation Details</h3>
+
+  <table>
+    <tbody>
+     <tr>
+      <th>&nbsp;</th>
+      <th>Usage (In Gallons)</th>
+      <th>Usage Charge</th>
+    </tr>
+    <tr>
+      <td style="text-align:left">Tier 1 (0-4000):</td>
+      <td><span id="tier1" name="tier1">0</span></td>
+      <td><span id="tier1_uc" name="tier1_uc">$0.00</span></td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Tier 2 (4001-10000):</td>
+      <td><span id="tier2" name="tier2">0</span></td>
+      <td><span id="tier2_uc" name="tier2_uc">$0.00</span></td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Tier 3 (10001-15000):</td>
+      <td><span id="tier3" name="tier3">0</span></td>
+      <td><span id="tier3_uc" name="tier3_uc">$0.00</span></td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Tier 4 (&gt;15000):</td>
+      <td><span id="tier4" name="tier4">0</span></td>
+      <td><span id="tier4_uc" name="tier4_uc">$0.00</span></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><span id="usage_sum" name="usage_sum">0</span></td>
+      <td><span id="usage_charge_sum" name="usage_charge_sum">$0.00</span></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <!--Water Charges-->
+    <tr>
+      <td style="text-align:left"><a class="iwanttomodal" href="#usagecharge">Usage Charge<span class="water-sprite water-calculator-icon-info info"></span></a></td>
+      <td>&nbsp;</td>
+      <td><span id="total_usage_charge" name="total_usage_charge">$0.00</span></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><a class="iwanttomodal" href="#basecharge">Base Charge<span class="water-sprite water-calculator-icon-info info"></span></a></td>
+      <td>&nbsp;</td>
+      <td><span id="total_base_charge" name="total_base_charge">$0.00</span></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><strong>Total Estimated Water Charges</strong></td>
+      <td>&nbsp;</td>
+      <td><span id="total_water_charges" name="total_water_charges">$0.00</span></td>
+    </tr>
+
+  </tbody><tbody>
+</tbody></table>
+
+
+
+
+
+</div>
+
+
+<script>
+  $(document).ready(function () {
+
+    $(".iwanttomodal").fancybox({
+      'titlePosition'   : 'inside',
+      'transitionIn'    : 'none',
+      'transitionOut'   : 'none'
+    });
+
+    $(".swagit").fancybox({
+      'titlePosition'   : 'inside',
+      'transitionIn'    : 'none',
+      'transitionOut'   : 'none',
+      'type'      : 'iframe',
+      'width'     : 570,
+      'height'    : 480,
+      'scrolling'       : 'no'
+    });
+
+  });
+
+</script>
+
+
+<Style>
+  #deptBanner img{
+    width: 1024px;
+    height: 240px;
+  }
+</Style>
+
+</body>
+</html>
